@@ -54,7 +54,7 @@ jobs:
         run: flake8 app/
       # Trivy Security Scan
       - name: Run Trivy Scan (FS)
-        uses: aquasecurity/trivy-action@0.30.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: fs
           scan-ref: .
