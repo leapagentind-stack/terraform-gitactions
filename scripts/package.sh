@@ -11,7 +11,7 @@ rm -rf "$ROOT_DIR/scripts/build"
 mkdir -p "$ROOT_DIR/scripts/build"
 
 # Copy app code
-cp "$ROOT_DIR/app/lambda_function.py" "$ROOT_DIR/scripts/build/"
+cp "$ROOT_DIR/app/hello-aws.py" "$ROOT_DIR/scripts/build/"
 
 # (Optional) Install dependencies if requirements.txt exists
 if [ -f "$ROOT_DIR/app/requirements.txt" ]; then
