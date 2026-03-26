@@ -2,9 +2,6 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - main
-      - js-v2
 
 jobs:
   lint-validate-scan:
