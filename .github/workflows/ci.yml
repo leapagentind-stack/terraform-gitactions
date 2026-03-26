@@ -13,7 +13,7 @@ jobs:
       # Terraform Checks
       - name: Terraform Init (no backend)
         run: |
-          cd terraform/envs/dev
+          cd terraform/envs/prod
           terraform init -backend=false
 
       - name: Terraform Format Check
@@ -21,7 +21,7 @@ jobs:
 
       - name: Terraform Validate
         run: |
-          cd terraform/envs/dev
+          cd terraform/envs/prod
           terraform validate
       # TFLint
       - name: Setup TFLint
