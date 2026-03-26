@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  lint-validate-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      # Terraform Checks
+      - name: Terraform Init (no backend)
+        run: |
+          cd terraform/envs/dev
+          terraform init -backend=false
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        run: |
+          cd terraform/envs/dev
+          terraform validate
+      # TFLint
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v3
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+      # Python Lint
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install Flake8
+        run: pip install flake8
+
+      - name: Run Flake8
+        run: flake8 app/
+      # Trivy Security Scan
+      - name: Run Trivy Scan (FS)
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: 1

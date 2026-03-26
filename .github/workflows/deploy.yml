@@ -1,0 +1,45 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # PROD DEPLOYMENT
+  deploy-prod:
+    name: Deploy to PROD
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: prod  
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Package Lambda
+        run: |
+          cd scripts
+          bash package.sh
+
+      - name: Terraform Init (PROD)
+        run: |
+          cd terraform/envs/prod
+          terraform init
+
+      - name: Terraform Plan (PROD)
+        run: |
+          cd terraform/envs/prod
+          terraform plan
+
+      - name: Terraform Apply (PROD)
+        run: |
+          cd terraform/envs/prod
+          terraform apply -auto-approve
