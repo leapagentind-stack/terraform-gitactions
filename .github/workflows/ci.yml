@@ -24,7 +24,9 @@ jobs:
           terraform init -backend=false
 
       - name: Terraform Format Check
-        run: terraform fmt -check -recursive
+        run: |
+          cd terraform/envs/prod
+          terraform fmt -check -recursive
 
       - name: Terraform Validate
         run: |
@@ -52,7 +54,7 @@ jobs:
         run: flake8 app/
       # Trivy Security Scan
       - name: Run Trivy Scan (FS)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.30.0
         with:
           scan-type: fs
           scan-ref: .
