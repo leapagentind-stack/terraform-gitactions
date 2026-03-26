@@ -10,7 +10,7 @@ This project shows how I automate infrastructure and application deployment usin
 https://drive.google.com/file/d/1RGXmrmWFTyCc5Y0g9Sre6Ta-wqeTReBH/view?usp=sharing
 
 <img width="5840" height="4920" alt="image" src="https://github.com/user-attachments/assets/f354f5d5-ae41-41d6-80fa-4461dd7ceac8" />
-
+👉 **output:**
 <img width="1435" height="198" alt="Screenshot 2026-03-26 at 2 29 50 PM" src="https://github.com/user-attachments/assets/3019e1c7-f0fe-4d83-9739-12302c93205f" />
 
 👉 **Architecture Diagram (draw.io):**
