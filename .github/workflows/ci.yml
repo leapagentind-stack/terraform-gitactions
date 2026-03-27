@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  commit:
+  push:
   pull_request:
 
 jobs:
@@ -12,14 +12,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
       
-      # Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.0
       
-      # Terraform Checks
-      - name: Terraform Init (no backend)
+      - name: Terraform Init
         run: |
           cd terraform/envs/prod
           terraform init -backend=false
@@ -33,17 +31,29 @@ jobs:
         run: |
           cd terraform/envs/prod
           terraform validate
-      # TFLint
+
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v3
 
       - name: Init TFLint
-        run: tflint --init
+        run: |
+          cd terraform/envs/prod
+          tflint --init
 
       - name: Run TFLint
-        run: tflint -f compact
-      # Python Lint
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
+        run: |
+          cd terraform/envs/prod
+          tflint -f compact
+
+      # python 
+      - name: Install Python Lint Tools
+        run: |
+          pip install flake8 black
+
+      - name: Run Flake8 (Lint Check)
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Check Formatting with Black
+        run: |
+          black --check .
