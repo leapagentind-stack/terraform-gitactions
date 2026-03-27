@@ -49,6 +49,10 @@ jobs:
       - name: Install Python Lint Tools
         run: |
           pip install flake8 black
+          
+      - name: Format Python Code
+        run: |
+          black app/
 
       - name: Run Flake8 (Lint Check)
         run: |
